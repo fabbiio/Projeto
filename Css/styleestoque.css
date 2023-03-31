@@ -12,6 +12,8 @@ header {
     background-color: dodgerblue;
     color: #fff;
     padding: 10px;
+   
+    
 }
 
 nav ul {
@@ -240,8 +242,10 @@ a:hover{
 }
 
 .usuario{
-    margin-left: 85%;
+    display: inline;
+    margin-left: 70%;
     color: white;
+    font-size: 20px;
     text-decoration: none;
     border-radius: 7px;
 }
@@ -353,4 +357,50 @@ input[type="search"]{
     background-color: rgba(0, 0, 250, 0.6);
 }
 
+/*                               */
+.mainmenubtn {
+    background-color: darkcyan;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding:10px;
+    margin-top:20px;
+    border-radius: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+}
+.mainmenubtn:hover {
+    background-color: blue;
+    
+    }
+.dropdown {
+    
 
+    position: absolute;
+    display: inline-block;
+}
+.dropdown-child {
+    display: none;
+    background-color: skyblue;
+    min-width: 200px;
+    
+    
+}
+.dropdown-child a {
+    
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    display: block;
+    font-size: 10px;
+   
+    
+    
+}
+.dropdown:hover .dropdown-child {
+    display: block;
+   
+    background-color: dodgerblue;
+
+}

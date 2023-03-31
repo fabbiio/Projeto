@@ -1,6 +1,6 @@
 <?php
   session_start();
-  require_once('conexao.php');
+  require_once('../config/conexao.php');
 
   $sql_code_perecivel = "SELECT * FROM tipo_perecivel order by nome asc";
   $sql_perecivel = $conn->query($sql_code_perecivel);
@@ -19,13 +19,13 @@
     $quantidade = $_POST['quantidade'];
     $preco = $_POST['preco'];
     $marca = $_POST['marca'];
-    $id_usuario = $_SESSION['id_usuario']; 
+   
 
     
 
-    $sql = "INSERT INTO produto values (NULL, '$nome','$tipo','$quantidade', '$preco','$marca','$id_usuario')"; # Comando sql (varchar tem que ter aspas simples)
+    $sql = "INSERT INTO produto values (NULL, '$nome','$tipo','$quantidade', '$preco','$marca','Controle de Estoque')"; # Comando sql (varchar tem que ter aspas simples)
     $exec = $conn->query($sql); #realizando consulta
-    header('Location: ../index.php');//
+    header('Location: index.php');//
     }
 
 
@@ -41,7 +41,7 @@
     
   </head>
   <body>
-    <a href="../index.php" class="inicial">PAGINA INICIAL</a>
+    <a href="index.php" class="inicial">PAGINA INICIAL</a>
     <a href="../Login_v1/login.php" class="off">Logout</a>
     <div class="titulo">
       <h1 >Adicionar no Estoque</h1>
@@ -53,7 +53,7 @@
       <input type="text"  name="nome" placeholder="PRODUTO" required>
       <label>Tipo</label>
       
-      <select class="form-select" name="tipo" required >  
+      <select class="form-select" name="tipo"  style="font-size:13px" required >  
         <option value="">SELECIONE O TIPO</option>
         <option>ALIMENTO PERECIVEL</option>
         <option>ALIMENTO NÃO-PERECIVEL</option>
@@ -93,7 +93,7 @@
       <input type="number"  name="quantidade" required placeholder="QUANTIDADE">
       <br>
       <label>Preço</label>
-      <input type="number" name="preco" step="0.01" required placeholder="PREÇO">
+      <input type="number"  name="preco" step="0.01" required placeholder="PREÇO" >
       <br> 
       <label>Marca</label>
       <input type="text" name="marca" step="0.01" required placeholder="MARCA">

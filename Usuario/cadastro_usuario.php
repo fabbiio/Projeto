@@ -1,5 +1,5 @@
 <?php
-    require_once("conexao.php");
+    require_once("../config/conexao.php");
 
     
    
@@ -12,6 +12,8 @@
             $telefone = $_POST['telefone'];
             
             if(isset($email) != isset($emailsalvo)){
+
+              
               $sql = "INSERT INTO usuario values (NULL, '$nome', '$email','$senha','$cidade', '$telefone')";
               $exec = $conn->query($sql);
       
@@ -58,11 +60,13 @@
     <input class="cad" type="text" name="cidade" placeholder="Digite sua Cidade"  required >
     
     <label for="" >Telefone</label>
-    <input class="cad" type="tel" name="telefone" id="telefone" placeholder=Telefone required>
+    <input class="cad" type="tel" name="telefone" id="telefone" placeholder=Telefone value="(00) 0000-0000"required>
+    <button type="reset"></button>
     
     <br>
     <br>
     
+
     <input type="submit" class=volt1 value="Cadastrar" link rel=”author” >
     <a href="../Login_v1/login.php" class="volt">Voltar</a>
     

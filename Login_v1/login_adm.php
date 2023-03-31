@@ -9,7 +9,7 @@
 		$senha = $_POST['senha'];
 		require_once('../config/conexao.php');
 
-		$sql = "SELECT * FROM usuario where email='$email' and senha='$senha'";
+		$sql = "SELECT * FROM administrador where email='$email' and senha='$senha'";
 		$exec = $conn->query($sql);
 		
 		
@@ -26,14 +26,14 @@
 			$_SESSION['login'] = $email;
 
 			//if (isset($_SESSION['id_usuario']) and $_SESSION['id_usuario'] == 1){
-				header('Location: ../index.php');
+				header('Location: ../adm/index.php');
 			//}
 			//else{
 				//header('Location: ../Index/cliente.php');	
 			//}
 		}
 		else{
-			header('Location: login.php?msg=1');
+			header('Location: login_adm.php?msg=1');
 		}
 	  }
 	
@@ -71,7 +71,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="./images/estoque1.jpg" alt="jpg">
+					<img src="./images/controle.jpg" alt="jpg">
 				</div>
 
 				<form class="login100-form validate-form" method="post" action="">
@@ -112,27 +112,18 @@
 					</div>
 
 					<div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-						<a class="txt2" href="#">
-							Username / Password?
+						
+
+						<a class="txt2" href="login.php">
+							Portal Usuario
+							<i class="fa " aria-hidden="true"></i>
 						</a>
 					</div>
 
-					<div class="text-center p-t-136">
-						<a class="txt2" href="login_adm.php">
-							Portal Administrador
-							<i class="fa " aria-hidden="true"></i>
-						</a>
-						<br>
-						<a class="txt2" href="../Usuario/cadastro_usuario.php">
-							Criar nova Conta
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
+					
 							
 						
-					</div>
+					
 				</form>
 			</div>
 		</div>

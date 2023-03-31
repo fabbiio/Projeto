@@ -1,5 +1,5 @@
 <?php
-    include("conexao.php");
+    include("../config/conexao.php");
    
     if(!empty($_GET['id'])){ # Pegando os valores
 

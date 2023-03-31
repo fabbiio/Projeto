@@ -38,6 +38,14 @@ create table Nao_perecivel(
     data_entrada date
 );
 
+create table Administrador(
+	id int primary key auto_increment not null,
+    nome varchar(20) not null,
+    email varchar(110) not null,
+    senha varchar(20) not null
+    
+);
+
 insert into Usuario(nome,email,senha,cidade,telefone)
 values("Fabio","fabiofelipe788@gmail.com","12345678","Centro", "35984039274");
 
@@ -59,6 +67,8 @@ select * from Produto;
 
 insert into Perecivel(id_produto,data_fabricacao,data_validade)
 values(1,"2023-02-15", "2024-02-15");
+
+insert into administrador values(Null,"Controle Estoque", "estoque@gmail.com", "12345678" );
 
 
 create view cadastro_usuarios AS

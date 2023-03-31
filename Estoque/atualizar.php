@@ -1,5 +1,5 @@
 <?php
-    require_once("conexao.php");
+    require_once("../config/conexao.php");
    
     if(!empty($_GET['id'])){ # Pegando os valores
 
@@ -30,7 +30,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Atualizar de Estoque</title>
+    <title>>Atualizar de Estoque</title>
     
     <link rel="stylesheet" href="../Css/styleestoque.css">
     <link rel="stylesheet" href="../Css/styleusers.css">
@@ -39,14 +39,47 @@
   <body style="background-color:white">
     <a href="../index.php" class="inicial">PAGINA INICIAL</a>
     <a href="../Login_v1/login.php" class="off">Logout</a>
-    <h1>Atualizar de Estoque</h1>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <h1 style="color:blue">EDITAR</h1>
 
     <form action="saveEdit.php" method="post">
         <label for="">Produto:</label>
         <input type="text"  name="nome" value="<?php echo $nome?>" disabled>
         <br>
-        <label for="">Tipo:</label>
-        <input type="text"  name="tipo" value="<?php echo $tipo?>" disabled> 
+        <select class="form-select" name="tipo" style="font-size:13px" required >  
+        <option value="">SELECIONE O TIPO</option>
+        <option>ALIMENTO PERECIVEL</option>
+        <option>ALIMENTO NÃO-PERECIVEL</option>
+        <option>DOCUMENTOS</option>
+        <option>ACESSÓRIOS</option>
+        <option>ACESSÓRIOS PARA INFORMÁTICA</option>
+        <option>ACESSÓRIOS PARA VEICULOS</option>
+        <option>ADESIVOS</option>
+        <option>ALUMINIO</option>
+        <option>ALVENARIA</option>
+        <option>AMOSTRA</option>
+        <option>ANIMAIS VIVOS</option>
+        <option>ANTENAS</option>
+        <option>APARELHOS ELETRONICOS</option>
+        <option>APOSTILAS</option>
+        <option>CADERNOS</option>
+        <option>ARTIGOS PARA CAES</option>
+        <option>ARTIGOS PARA GATOS</option>
+        <option>ARTIGOS PARA FESTAS</option>
+        <option>AUTO PEÇAS</option>
+        <option>BEBIDAS</option>
+        <option>BRINQUEDOS</option>
+        <option>COSMETICOS</option>
+        <option>ELETRODOMESTICOS</option>
+        <option>EQUIPAMENTOS ELETRONICOS</option>
+        <option>EQUIPAMENTOS PARA INFORMÁTICA</option>
+        <option>FERRAMENTAS</option>
+        <option>MATERIAL DE LIMPEZA</option>
+        <option>MATERIAL ESCOLAR</option>
+        <option>ROUPAS</option>
+        <option>OUTROS</option>
+      </select>
+      <br>
         <br>
         <label for="">Quantidade:</label>
         <input type="number"  name="quantidade" value="<?php echo $quantidade?>">
