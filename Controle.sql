@@ -71,6 +71,14 @@ values(1,"2023-02-15", "2024-02-15");
 insert into administrador values(Null,"Controle Estoque", "estoque@gmail.com", "12345678" );
 
 
+create view Produtos_Cadastrados as
+select produto.id as ID_Produto , produto.nome as nome, produto.quantidade as quantidade,
+ produto.preco, produto.marca ,produto.tipo , usuario.nome as Usuario, sum(produto.preco * produto.quantidade) as  Preco_Total 
+ from produto join usuario on 
+usuario.id = produto.id_usuario group by produto.preco ;
+select *  from produtos_cadastrados;
+
+
 create view cadastro_usuarios AS
 select usuario.nome as nome_usuario, produto.nome as nome_produto, produto.quantidade
 from usuario JOIN produto ON 
@@ -94,6 +102,8 @@ from usuario join produto on
 produto.id_usuario = usuario.id 
 order by id_usuario asc;
 select * from Itens_Cadastrados ;
+
+
 
 #criar permissoes
 create user 'controle_estoque'@'localhost' ;
