@@ -3,47 +3,88 @@ use Controle;
 #drop database Controle;
 
 
-create table Usuario(
+create table usuario(
 	id int primary key auto_increment not null,
     nome varchar(20) not null,
     email varchar(110) not null,
     senha varchar(20) not null,
     cidade varchar(45) not null,
-	telefone varchar (20) not null
+	
+    nome_imagem varchar(100),
+    caminho_imagem varchar(50)
 );
 
 
 
-create table Produto(
+create table produto(
 	id int primary key auto_increment not null,
-    nome varchar(20),
+    nome varchar(50),
     tipo varchar(20),
+    categoria varchar(20),
     quantidade int,
     preco float,
-    marca varchar(20),
+    fornecedor varchar(45),
+    marca varchar(50),
+    data_validade date,
+    status_cadastro datetime,
     id_usuario int,
     foreign key (id_usuario) references Usuario(id)
 );
 
-create table Perecivel(
+create table perecivel(
 	id_produto int primary key,
     foreign key (id_produto) references Produto(id),
-    data_fabricacao date,
-    data_validade date
+    quantidade int,
+    data_entrada date,
+    data_validade date,
+    id_usuario int,
+    foreign key (id_usuario) references usuario(id)
+    
 );
 
-create table Nao_perecivel(
+create table variado(
 	id_produto int primary key,
-    foreign key (id_produto) references Produto(id),
-    data_entrada date
+    data_entrada date,
+    quantidade int,
+    id_usuario int ,
+    foreign key (id_produto) references produto(id),
+    foreign key (id_usuario) references usuario(id)
 );
 
-create table Administrador(
+create table administrador(
 	id int primary key auto_increment not null,
     nome varchar(20) not null,
-    email varchar(110) not null,
+    email varchar(100) not null,
     senha varchar(20) not null
     
+);
+
+create table categoria(
+	id int primary key auto_increment,
+    tipo varchar(50)
+);
+
+create TABLE imagens(
+   	id int AUTO_INCREMENT,
+    nome varchar(100),
+    caminho varchar(50),
+    id_usuario int,
+    id_produto int,
+    PRIMARY KEY(id, id_usuario, id_produto),
+    FOREIGN key (id_usuario) REFERENCES usuario(id),
+    FOREIGN key (id_produto) REFERENCES produto(id)
+    );
+    
+    
+    
+create table vendas(
+	id int primary key,
+    quatidade int,
+    data_saida date,
+    id_usuario int,
+    id_produto int,
+    FOREIGN key (id_usuario) REFERENCES usuario(id),
+    FOREIGN key (id_produto) REFERENCES produto(id)
 );
 
 insert into Usuario(nome,email,senha,cidade,telefone)
@@ -57,11 +98,11 @@ values("Maria","maria@gmail.com","1020304050","Centro", "34515454");
 
 select * from usuario;
 
-insert into produto(nome,tipo,quantidade,preco,marca,id_usuario )
-values("Sal","Perecivel",50,"5.99", "Salita", 1);
+insert into produto(nome,tipo,quantidade,preco,marca,id_usuario,status_cadastro)
+values("Sal","Perecivel",50,"5.99", "Salita", 1,now());
 
-insert into produto(nome,tipo,quantidade,preco,marca,id_usuario )
-values("Lapis","Nao_Perecivel",110,"0.70", "Faber", 3);
+insert into produto(nome,tipo,quantidade,preco,marca,id_usuario,status_cadastro)
+values("Lapis","Nao_Perecivel",110,"0.70", "Faber", 3,now());
 
 select * from Produto;
 
@@ -71,48 +112,56 @@ values(1,"2023-02-15", "2024-02-15");
 insert into administrador values(Null,"Controle Estoque", "estoque@gmail.com", "12345678" );
 
 
-create view Produtos_Cadastrados as
+create view tabela_venda as
+SELECT produto.nome as nome, produto.preco as preco, imagens.caminho , produto.id_usuario as id_usuario, produto.id as id_produto
+FROM produto join imagens on produto.id = imagens.id_produto  ;
+
+
+create view produtos_cadastrados as 
 select produto.id as ID_Produto , produto.nome as nome, produto.quantidade as quantidade,
  produto.preco, produto.marca ,produto.tipo , usuario.nome as Usuario, sum(produto.preco * produto.quantidade) as  Preco_Total 
  from produto join usuario on 
-usuario.id = produto.id_usuario group by produto.preco ;
+usuario.id = produto.id_usuario group by produto.preco order by ID_Produto asc  ;
 select *  from produtos_cadastrados;
 
+create view carrinho as
+select produto.id as id, produto.nome as nome, produto.categoria as categoria, 
+produto.preco as preco,produto.quantidade as quantidade, imagens.caminho as caminho,
+imagens.id_produto as id_produto  
+from produto join imagens on produto.id = id_produto ;
 
-create view cadastro_usuarios AS
-select usuario.nome as nome_usuario, produto.nome as nome_produto, produto.quantidade
-from usuario JOIN produto ON 
-usuario.id = produto.id_usuario;
-select * from cadastro_usuarios;
-
-create view valor_estoque_produtos as
-select  usuario.nome as nome_usuario, produto.nome as nome_produto, produto.quantidade, produto.preco, quantidade * preco as valor_total
-from produto join usuario on 
-produto.id_usuario = usuario.id order by usuario.nome asc;
-select * from valor_estoque_produtos;
+select * from produto; 
 
 
-create view  Valor_Total_Estoque as
-select sum(valor_total) as Valor_Estoque from valor_estoque_produtos;
-select * from Valor_Total_Estoque ;
+DELIMITER $
+CREATE PROCEDURE ArmazenarProduto (
+    id_produto int ,
+    id_usuario int ,
+    tipo VARCHAR(20),
+    data_validade DATE,
+    quantidade int
+	
+)
+AS
+BEGIN
+    IF tipo = 'PERECIVEL'
+    BEGIN
+        INSERT INTO perecivel (id_produto,quantidade, data_validade, data_entrada, id_usuario)
+        VALUES (id_produto, quantidade, data_validade, sum(), id_usuario)
+    END;
+    ELSE IF @tipoProduto = 'nao_perecivel'
+    BEGIN
+        INSERT INTO variado (id_produto, data_entrada, quantidade, id_usuario)
+        VALUES (id_produto, sum(),quantidade, id_usuario)
+    END;
+END;
+DELIMITER;
 
-create view Itens_Cadastrados as
-select usuario.id as ID_Usuario, produto.nome as Nome_produto , produto.quantidade 
-from usuario join produto on
-produto.id_usuario = usuario.id 
-order by id_usuario asc;
-select * from Itens_Cadastrados ;
 
 
 
-#criar permissoes
-create user 'controle_estoque'@'localhost' ;
 
-#Selecionando usuarios cadastrados
-select * from mysql.user;
 
-#criando privilegios
-grant select on produto.* to 'controle_estoque'@'localhost' ;
-show grants for 'controle_estoque'@'localhost' ;
 
-grant select on cadastro_usuarios to 'controle_estoque'@'localhost' ;
+
+
