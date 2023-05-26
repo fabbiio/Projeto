@@ -133,6 +133,23 @@ from produto join imagens on produto.id = id_produto ;
 select * from produto; 
 
 
+delimiter$
+CREATE TRIGGER AdicionarItemPerecivelVariado
+AFTER INSERT ON produto
+FOR EACH ROW
+BEGIN
+    IF NEW.tipo = 'perecivel' THEN
+        INSERT INTO perecivel (id_produto, quantidade, data_entrada, data_validade, id_usuario)
+        VALUES (NEW.id, NEW.quantidade, CURDATE(), NEW.data_validade, NEW.id_usuario)$
+    ELSEIF NEW.tipo = 'variado' THEN
+        INSERT INTO variado (id_produto, data_entrada, quantidade, id_usuario)
+        VALUES (NEW.id, CURDATE(), NEW.quantidade, NEW.id_usuario)$
+    END IF$
+END$
+delimiter ; 
+
+
+
 DELIMITER $
 CREATE PROCEDURE ArmazenarProduto (
     id_produto int ,
@@ -149,16 +166,25 @@ BEGIN
         INSERT INTO perecivel (id_produto,quantidade, data_validade, data_entrada, id_usuario)
         VALUES (id_produto, quantidade, data_validade, sum(), id_usuario)
     END;
-    ELSE IF @tipoProduto = 'nao_perecivel'
+    ELSE IF tipoProduto = 'nao_perecivel'
     BEGIN
         INSERT INTO variado (id_produto, data_entrada, quantidade, id_usuario)
         VALUES (id_produto, sum(),quantidade, id_usuario)
-    END;
-END;
+    END$
+END$
 DELIMITER;
 
 
+CREATE FUNCTION TotalProdutosPorUsuario (idusuario INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE totalProdutos INT
 
+    SELECT totalProdutos = COUNT(*) FROM produto WHERE id_usuario = idUsuario
+
+    RETURN totalProdutos
+END
 
 
 
