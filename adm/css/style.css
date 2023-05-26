@@ -1,0 +1,586 @@
+:root{
+    --cor-fundo:  rgb(36, 34, 41);
+    --cor-primaria:  rgb(232, 253, 241);
+    --cor-hover:  rgb(185, 172, 226);
+    --cor-principal: #5134d2;
+}
+*{
+    
+    font-family: "Ubuntu", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    
+}
+/***********************************Dashboard de Valores****************************************************/
+
+
+.cardBox {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    
+  }
+  
+  .cardBox .card {
+    position: relative;
+    background: #ffff;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 7px 23px rgba(0, 0, 0, 0.08);
+    
+    
+  }
+  
+  .cardBox .card .numbers {
+    position: relative;
+    font-weight: 500;
+    font-size: 2.5rem;
+    color: black;
+  }
+  
+  .cardBox .card .cardName {
+    color: black;
+    font-size: 1.1rem;
+    margin-top: 5px;
+  }
+  
+  .cardBox .card .iconBx {
+    font-size: 3.5rem;
+    color: black;
+  }
+  
+  .cardBox .card:hover {
+    background: var(--cor-hover);
+  }
+  .cardBox .card:hover .numbers,
+  .cardBox .card:hover .cardName,
+  .cardBox .card:hover .iconBx {
+    color: #ffff;
+  }
+  
+/**********************************************Tabela Ultimos Cadastros*************************************************************/
+
+.details {
+    position: relative;
+    width: 50%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+    /* margin-top: 10px; */
+    
+  }
+  
+  .details .recentOrders {
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+  }
+  
+  .details .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cardHeader h2 {
+    font-weight: 600;
+    color: var(--cor-primaria);
+  }
+  .cardHeader .btn {
+    position: relative;
+    padding: 5px 10px;
+    background:var(--cor-primaria);
+    text-decoration: none;
+    color: white;
+    border-radius: 6px;
+  }
+  
+  .details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  .details table thead td {
+    font-weight: 600;
+    text-align: center;
+  }
+  .details .recentOrders table tr {
+    color: black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .details .recentOrders table tr:last-child {
+    border-bottom: none;
+  }
+  .details .recentOrders table tbody tr:hover {
+    background:var(--cor-hover);
+    color: white;
+  }
+  .details .recentOrders table tr td {
+    padding: 5px;
+  }
+  .details .recentOrders table tr td:last-child {
+    text-align: center;
+  }
+  .details .recentOrders table tr td:nth-child(2) {
+    text-align: center;
+  }
+  .details .recentOrders table tr td:nth-child(3) {
+    text-align: center;
+  }
+  
+  
+ 
+  
+/**********************************************************************************************************/
+.img{
+    width: 40px;
+    height: 40px;
+    border-radius: 80%;
+    position: relative;
+    margin-left: 95%;
+    margin-top: -50px;
+
+}
+.nome{
+    text-align: center;
+    width: 20px;
+    position: relative;
+    margin-left: 1448px;
+    font-size: 12px;
+}
+.topo{
+    background-color: var(--cor-principal);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: aliceblue;
+
+}
+.topo h1{
+    text-align: center;
+    
+}
+
+.opcoes{
+    
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul{
+    background-color:  var(--cor-fundo);
+}
+
+.menu ul li{
+    display: inline;
+    position: relative;
+}
+
+.menu ul li a{
+    color: var(--cor-primaria);
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+    /*padding-left: 15px;*/
+}
+
+.menu ul li a:hover{
+    background-color: var(--cor-hover);
+    color: var(--cor-principal);
+
+}
+
+/* Menu secundario*/
+
+.cadastrar {
+    display: none;
+    left: 0;
+    position: absolute;
+    
+}
+
+
+.menu ul li:hover .cadastrar {
+    display: block;
+    
+}
+
+
+.cadastrar li a{
+    display: block;
+}
+
+
+
+
+
+
+/*-------------------------------------------------------------------------------*/
+
+.divisao1{
+    background-color: var(--cor-principal);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+.divisao12{
+    background-color: var(--cor-principal);
+   
+    
+    text-align: center;
+    color: white;
+}
+
+.menu{
+    text-align: center;
+}
+
+/**********************************Configuracao Import**************************************************/
+.divisao2 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #f2f2f2;
+}
+
+.divisao2 li {
+    flex-grow: 1;
+    text-align: center;
+}
+
+
+
+.divisao2 li a {
+    display: block;
+    padding: 15px;
+    color: black;
+    text-decoration: none;
+    border-right: 1px solid #ccc;
+    transition: background-color 200ms ease-in-out;
+}
+
+.divisao2 li a:hover {
+    background-color: #ddd;
+}
+
+/************************************************************************************/
+
+
+.divisao3{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+/* Barra Pesquisa*/
+.pesquisa{
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+}
+
+input[type="search"]{
+    
+    width: 25%;
+    height: 40px;
+    background-color: white;
+    border-radius: 7px;
+    border: inset;
+    border-color: var(--cor-hover);
+    text-align: center;
+    
+
+}
+.form-control:hover{
+    background-color: var(--cor-hover);
+}
+
+.pes{
+    
+    color: white;
+    border-radius: 6px;
+    background-color: blue;
+    height: 40px;
+    border: none;
+    width: 40px;
+    }
+
+.pes:hover{
+    background-color: rgba(0, 0, 250, 0.6);
+}
+/*******************************************/
+
+.tabela{
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid black;
+    border-radius: 15px 15px 0 0;
+    width: 100%;
+    border-collapse: collapse;
+    text-size-adjust: 5px;
+    
+}
+
+th{
+    background-color: var(--cor-principal);
+    color: white;
+    border: 1px solid black;
+    padding: 8px;
+    border-collapse:inherit;
+}
+
+td{
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+/**************************************************************************/
+
+.btn-danger{
+    color: white;
+    border-radius: 6px;
+    background-color: red;
+    padding: 5px;
+}
+
+.btn-primary{
+    color: white;
+    border-radius: 6px;
+    background-color: blue;
+    padding: 5px;
+}
+
+.btn-danger:hover{
+    background-color: rgba(250, 0, 0,0.6);
+    color: white;
+}
+
+.btn-primary:hover{
+    background-color: rgba(0, 0, 250, 0.6);
+    color: white;
+}
+/****************************************************************************************************/
+
+
+
+.ca{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.adicionar{
+    width: 25%;
+    height: 35px;
+    background-color: white;
+    border-radius: 7px;
+    border: inset;
+    border-color: var(--cor-hover);
+    text-align: center;
+}
+/**********************************************************************************************/
+
+h1{
+    color: white;
+}
+
+.ola{
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+   
+
+    }
+
+
+/*************************************Titulo ************************************************************/
+
+.home{
+    display: flex;
+    text-align: center;
+    margin-left: 43%;
+    margin-top: -32px;
+
+}
+
+.cadastro_var{
+    display: flex;
+    text-align: center;
+    margin-left: 38%;
+    margin-top: -32px; 
+}
+
+
+.title{
+    background-color: var(--cor-principal);
+    padding-bottom: 30px;
+    padding-top: 30px;
+    
+}
+
+
+.title svg{
+    margin-top: 5px;
+    display: flex;
+    margin-left: 40%;
+    color: white;
+      
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************************************************************/
+
+.p1{
+
+    background-color: red;
+    position: relative;
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+    margin-left: 40px;
+   
+}
+
+
+.p2{
+    background-color: blue; 
+    position: relative;
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+    margin-left: 20px;
+   
+}
+
+    
+.p3{
+    background-color: rgb(206, 206, 21); 
+    position: relative;
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+    margin-left: 20px;
+}
+
+
+.p4{
+    background-color: green;
+    position: relative;  
+    display: inline-block;
+    width: 320px;
+    height: 100px;
+    margin-left: 20px;   
+}
+
+
+/**********************************************************************************************************/
+
+/* Grafico*/
+
+
+/*****************************************Cadastro Produto***********************************************************************/
+
+.cadastro_produto{
+    position: relative;
+    display: inline-block;
+    margin-top: 30px;
+    
+    margin-left: 37%;
+    height: 400px;
+    width: 400px;
+    
+}
+
+
+form{
+width: 400px;
+margin: 0 auto;
+background-color: white;
+padding: 20px;
+border-radius: 5px;
+box-shadow: 0px 0px 10px lightgrey;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px lightgrey;
+    padding-left: 5px;
+}
+
+input[type="date"]{
+    width: 200px; 
+    height: 35px; 
+
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px lightgrey;
+}
+
+
+
+
+.add {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+
+select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px lightgrey;
+}
+  
+
+/********************************************************************************************/
+
