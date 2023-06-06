@@ -18,7 +18,19 @@ if(!isset($_SESSION['login'])){
    
 $_SESSION['id_usuario'];
 $id_usuario = $_SESSION['id_usuario']; 
-   
+ 
+
+$sql = "SELECT * FROM produto WHERE id_usuario ='$id_usuario'"; # instrucao sql (consulta no formato texto)
+$result = $conn->query($sql);
+
+
+    
+    
+    $var = "SELECT COUNT(id) tot FROM `produto` WHERE id_usuario = '$id_usuario'";
+    $exec = $conn->query($var);
+    while($valor = $exec->fetch_object()){
+        $quantidade=  $valor->tot;
+    }
 
 $for = "SELECT  * from  produtos_usuario ";
     $pizza = $conn->query($for);
@@ -33,7 +45,40 @@ $for = "SELECT  * from  produtos_usuario ";
         $dadospizza1 = rtrim($dadospizza1,",");
   /********************************************************************************** */
 
+    $qp = "SELECT COUNT(id) as qtd_produtos FROM produto";
+    $produtos = $conn->query($qp);
 
+    foreach($produtos as $topr){
+        $total_produtos =  $topr['qtd_produtos'] ;
+
+    }
+
+    $qf = "SELECT fornecedor, COUNT(id) as total FROM produto  GROUP by fornecedor";
+    $fornededor = $conn->query($qf);
+    $linha = 0;
+    foreach($fornededor as $topf){
+        $total_fornecedor =  $topf['total'];
+        $linha = $linha+1;
+    }
+    
+    $sql = "SELECT * FROM produto "; # instrucao sql (consulta no formato texto)
+    $result = $conn->query($sql);
+
+    $total1 = 0;
+    while($user_data = mysqli_fetch_assoc($result)){
+        
+        $total1 += $user_data['preco'] * $user_data['quantidade'];
+
+
+    }
+
+    $qu = "SELECT  COUNT(id) as total FROM usuario ";
+    $usuarios = $conn->query($qu);
+    
+    foreach($usuarios as $totu){
+        $total_usuarios =  $totu['total'];
+       
+    }
 
 ?>
 
@@ -78,14 +123,7 @@ $for = "SELECT  * from  produtos_usuario ";
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="./users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
-            <li><a href="#">Quem somos</a></li>
+            
             <li><a href="../adm/login/index.php">Sair</a></li>
 
         </ul>
@@ -105,7 +143,7 @@ $for = "SELECT  * from  produtos_usuario ";
 <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers">1,504</div>
+                        <div class="numbers"><?php echo $total_produtos?></div>
                         <div class="cardName">Estoque Total</div>
                     </div>
 
@@ -116,7 +154,7 @@ $for = "SELECT  * from  produtos_usuario ";
 
                 <div class="card">
                     <div>
-                        <div class="numbers">80</div>
+                        <div class="numbers"><?php echo $linha;?></div>
                         <div class="cardName">Fornecedores</div>
                     </div>
 
@@ -127,8 +165,8 @@ $for = "SELECT  * from  produtos_usuario ";
 
                 <div class="card">
                     <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
+                        <div class="numbers"><?php  echo  $total_usuarios; ?></div>
+                        <div class="cardName">Usuarios </div>
                     </div>
 
                     <div class="iconBx">
@@ -138,7 +176,7 @@ $for = "SELECT  * from  produtos_usuario ";
 
                 <div class="card">
                     <div>
-                        <div class="numbers">$7,842</div>
+                        <div class="numbers"><?php  echo  "R$ " . number_format($total1,2,",",".")  ?></div>
                         <div class="cardName">Valor Estoque</div>
                     </div>
 
@@ -202,7 +240,7 @@ $for = "SELECT  * from  produtos_usuario ";
 
         var options = {
           title: 'Estoque Usuarios',
-          vAxis: {title: 'Itens Cadastrados'},
+          vAxis: {title: 'Total Estoque'},
           hAxis: {title: 'Usuarios'},
           seriesType: 'bars',
           colors: ['dodgerblue'],

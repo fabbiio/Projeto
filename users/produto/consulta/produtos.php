@@ -87,13 +87,7 @@
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
+          
             <li><a href="#">Vendas</a>
                 <ul class="cadastrar">
                     <li><a href="<?php echo BASEURL?>users/produto/venda/vender.php"> Vender</a></li>
@@ -118,7 +112,8 @@
         </div>
         <div>
             <ul class="divisao2">
-                <li><a href="./config/importar.php">Importar</a></li>
+                <!--<li><a href="./config/importar.php">Importar</a></li>-->
+                <li><a href="#">Importar</a></li>
                 <li><a href="./config/gerar_planilha.php">Exportar</a></li> 
                 <li><a href="" onclick="imprimir()">Imprimir</a></li> 
                 

@@ -16,7 +16,7 @@ $id_usuario = $_SESSION['id_usuario'];
 if(!empty($_GET['search']) or $_GET)
    {
     $data = $_GET['search'];
-    $sql = "SELECT * FROM usuario WHERE  (id LIKE '%$data%' or nome LIKE '%$data%' or email LIKE '%$data%' or cidade like '%$data%' or telefone LIKE '%$data%')";
+    $sql = "SELECT * FROM usuario WHERE  (id LIKE '%$data%' or nome LIKE '%$data%' or email LIKE '%$data%' or cidade like '%$data%')";
    }
 else{
     $sql = "SELECT * FROM usuario";     
@@ -36,14 +36,14 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Principal</title>
+    <title>Consulta Usuarios</title>
     <link rel="stylesheet" href="../../css/style.css">
     
 </head>
 <body>
     <div class="topo">
         <ul>
-            <h1>Controle de Estoque</h1>
+            <h1>Portal Administrador</h1>
         </ul>
     </div>
 <!---------------------------------------------------------------------------------------------------------------------->
@@ -66,14 +66,7 @@ $result = $conn->query($sql);
                         
                     </ul>
                 </li>
-                <li><a href="#">Usuario</a>
-                    <ul class="cadastrar">
-                            <li><a href="./users/usuario/usuario.php"> Editar</a></li>
-                            <li><a href="#"> Excluir</a></li>
-                        </ul>
-            
-                </li>
-                <li><a href="#">Quem somos</a></li>
+                
                 <li><a href="../../adm/login/index.php">Sair</a></li>
 
             </ul>
@@ -116,9 +109,9 @@ $result = $conn->query($sql);
             <th scope="col">Email</th>
             <th scope="col">Senha</th>
             <th scope="col">Cidade</th>
-            <th scope="col">Telefone</th>
+            
            
-            <th class="espaco"></th>     
+            <th class="espaco">Apagar</th>     
             
         </tr >
         <tbody >
@@ -135,9 +128,17 @@ $result = $conn->query($sql);
                         echo "<td>" . $user_data['email'] . "</td>";                     
                         echo "<td>" . $user_data['senha']. "</td>";
                         echo "<td> " . $user_data['cidade'] ."</td>";
-                        echo "<td>" . $user_data ['telefone'] . "</td>" ; 
+                        echo "<td> 
+
+                
+                        <a class='btn btn-sm btn-danger' href='deletar.php?id=$user_data[id]'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash-fill' viewBox='0 0 16 16' id='d'>
+                                <path d='M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z'/>
+                            </svg>
+                        </a>
+                      </td>";
                         
-                        echo "<td>";
+                        
 
                         echo"</tr>"; 
                         

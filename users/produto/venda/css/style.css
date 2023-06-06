@@ -30,9 +30,9 @@ body {
 }
 .nome{
     text-align: center;
-    width: 20px;
     position: relative;
-    margin-left: 1448px;
+    
+    padding-left: 1415px;
     font-size: 12px;
 }
 .topo{
@@ -393,3 +393,24 @@ main .content{
 
 
 /***********************************************************************************************/
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#count {
+    margin: 0 10px;
+    font-size: 24px;
+}

@@ -3,6 +3,29 @@
  session_start();
  require_once('../../config.php');
  require_once('../../config/conexao.php');
+
+ if(!isset($_SESSION['login'])){
+    header('Location: '.BASEURL.'users/Login/login.php');
+  }
+  $_SESSION['id_usuario'];
+  $id_usuario = $_SESSION['id_usuario']; 
+  $usuario = $_SESSION['usuario'];
+
+  $sqlSelect = "SELECT * FROM usuario where id=$id_usuario";
+  $result = $conn->query($sqlSelect);
+
+
+
+  if($result->num_rows > 0){
+    while($user_data = mysqli_fetch_assoc($result)){
+        $id = $user_data['id'];
+        $nome = $user_data['nome'];
+        $email = $user_data['email'];
+        $senha = $user_data['senha'];
+        $cidade = $user_data['cidade'];
+   
+    }
+}
  ?>
 
 
@@ -49,7 +72,7 @@
             <li><a href="#">Usuario</a>
                 <ul class="cadastrar">
                         <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
+                        <li><a href="<?php echo BASEURL?>users/usuario/excluir.php"> Excluir</a></li>
                     </ul>
         
             </li>
@@ -71,6 +94,32 @@
               </svg>
             <h1 class="home">Meu Perfil</h1>
         </div>
+        <br><br>
+        <form action="" method="post"  class="formusu"  enctype="multipart/form-data">
+  
+ 
+        <label for="" class="cadu">Nome:</label >
+        <input class="cadi" type="text" name="nome" value="<?php echo $nome?>" required >
 
+        <label for="" class="cadu">E-mail:</label>
+        <input class="cadi" type="email" name="email"  value="<?php echo $email?>" required>
+
+        <label for="" class="cadu">Senha:</label>
+        <input  class="cadi" type="number" name="senha" value="<?php echo $senha?>" minlength="8" required >
+
+        <label for="" class="cadu">Cidade:</label>
+        <input class="cadi" type="text" name="cidade"  value="<?php echo $cidade?>"  required >
+        
+        
+  
+  
+        <br>
+        <br>
+  
+
+        <input type="submit" class=volt1 value="Atualizar" link rel=”author” >
+        <a href="<?php echo BASEURL?>index.php"class="volt1">Voltar</a>
+  
+        </form>
     </body>
 </html>

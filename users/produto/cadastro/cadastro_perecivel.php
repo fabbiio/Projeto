@@ -11,6 +11,17 @@ error_reporting(E_ALL);
   require_once('../../../config/conexao.php');
 
 
+  if(!isset($_SESSION['login'])){
+    header('Location: '.BASEURL.'users/Login/login.php');
+    }
+
+   $_SESSION['id_usuario'];
+   $id_usuario = $_SESSION['id_usuario']; 
+   $usuario = $_SESSION['usuario'];
+
+    $sql = "SELECT caminho_imagem as caminho FROM usuario WHERE id ='$id_usuario'"; # instrucao sql (consulta no formato texto)
+    $img = $conn->query($sql);
+
   $sql = "SELECT * FROM categoria"; 
   $result = $conn->query($sql);
 
@@ -98,6 +109,19 @@ error_reporting(E_ALL);
     <div class="topo">
         <ul>
             <h1>Controle de Estoque</h1>
+            <?php
+                if (mysqli_num_rows($img) > 0){
+                    foreach ( $img as $obg ){
+                        ?>
+                        <img class="img" src="<?php echo BASEURL . "usuario/". $obg['caminho'];?>">
+                        <?php
+                    }
+                }else{
+                    echo "<img class='img' src='usuario/img/person.png'> alt='Sem Foto'";
+                    
+                }
+            ?>
+            <h1 class="nome"><?php echo $usuario ?></h1>
         </ul>
     </div>
 <!---------------------------------------------------------------------------------------------------------------------->
@@ -120,13 +144,7 @@ error_reporting(E_ALL);
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
+           
             <li><a href="#">Vendas</a>
                 <ul class="cadastrar">
                     <li><a href="<?php echo BASEURL?>users/produto/venda/vender.php"> Vender</a></li>
@@ -140,7 +158,7 @@ error_reporting(E_ALL);
  <!---------------------------------------------------------------------------------------------------------------------->
  <div class="title">
     
-    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16" style="margin-left:519px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16" style="margin-left:530px;">
         <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
     </svg>
 
@@ -150,11 +168,11 @@ error_reporting(E_ALL);
     <form method="post"  enctype="multipart/form-data">
 
         <label>Nome</label>
-        <input type="text"  name="nome" placeholder="PRODUTO" required>
+        <input type="text"  name="nome" placeholder="PRODUTO" maxlength="45" required>
         <br>
         <label>Categoria</label>
         <select class="form-select" name="categoria"  style="font-size:13px" required >
-        <option value="">SELECIONE O TIPO </option>  
+        <option value="">SELECIONE</option>  
         <?php
         while($user_data = mysqli_fetch_assoc($result)){
                             

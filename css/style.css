@@ -172,10 +172,11 @@ body {
 
 }
 .nome{
+    position: absolute;
     text-align: center;
     width: 20px;
-    position: relative;
-    margin-left: 1448px;
+    position: absolute;
+    right: 50px;
     font-size: 12px;
 }
 .topo{
@@ -452,6 +453,7 @@ h1{
 
 
 .title svg{
+  
     margin-top: 5px;
     display: flex;
     margin-left: 40%;
@@ -647,10 +649,11 @@ select{
 .preco {
   display: absolute;
   text-align: center;
-  margin-top: 20px ;
+  margin-top: 30px ;
   color: green;
   align-items: center;
   text-transform: uppercase;
+  
 }
 
 
@@ -664,7 +667,11 @@ select{
   border: hidden;
   border-radius: 10px;
   color: white;
-  text-transform: uppercase
+  text-transform: uppercase;
+  position: absolute;
+  right: 7px;
+  bottom: 8px;
+  
 }
 
 

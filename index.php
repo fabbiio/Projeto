@@ -120,19 +120,14 @@ $tab = $conn->query($sql);
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
+            
             <li><a href="#">Vendas</a>
                 <ul class="cadastrar">
                     <li><a href="<?php echo BASEURL?>users/produto/venda/vender.php"> Vender</a></li>
                     <li><a href="<?php echo BASEURL?>users/produto/venda/carrinho.php">Meu Carrinho</a></li>
                 </ul>
             </li>
+           
             <li><a href="<?php echo BASEURL?>users/Login/login.php">Sair</a></li>
 
         </ul>
@@ -214,13 +209,52 @@ $tab = $conn->query($sql);
    
     <br><br>
 
-    <!-----------------------------------------------Tabela----------------------------------------------------------------------------->
+     <!------------------------------------------------Graficos-------------------------------------------------------------------------------------------->
     <div class="container">
         <div class="row">
-            <div class="col-6 col-sm-12">
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 ">
+                <div id="piechart" style="width: 100%; height: 350px; " ></div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 ">
+                <div id="chart_div" style="width: 100%; height: 350px;  "></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<!--------------------------------------------------Grafico Pizza----------------------------------------------------------------------------------------------->
+<?php
+
+?>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          <?php echo $dadospizza1;?>
+        ]);
+
+        var options = {
+          title: 'Fornecedores'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+    <!-----------------------------------------------Tabela----------------------------------------------------------------------------->
+    <!--<div class="container">
+        <div class="row"  >
+            <div class="col-6 col-sm-12" >
 
                 <div class="details">
-                    <div class="recentOrders">
+                    <div class="recentOrders"  >
                         <div class="cardHeader">
                             <h2>Ultimos Cadastrados</h2>
                             <a href="<?php echo BASEURL?>users/produto/consulta/produtos.php" class="btn">Ver Todos</a>
@@ -252,55 +286,14 @@ $tab = $conn->query($sql);
                         </table>
                     </div>
                 </div>
+                <div id="chart_div" style="width: 900px; height: 500px;"></div>
             </div>
         </div>
-    </div>
-
-
-   <!------------------------------------------------Graficos-------------------------------------------------------------------------------------------->
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 ">
-                <div id="piechart" style="width: 100%; height: 350px; " ></div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 ">
-                <div id="chart_div" style="width: 100%; height: 350px;  "></div>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
-<!-------------------------------------------------------Pizza----------------------------------------------------------------------------------------------->
-<?php
-
-?>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          <?php echo $dadospizza1;?>
-        ]);
-
-        var options = {
-          title: 'Fornecedores'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
-      }
-    </script>
-
-
-
-
+    </div> -->
 
 <!-----------------------------------------------------------Grafico de Coluna-------------------------------------------------------------------------------------------------->
+
+  
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
@@ -340,6 +333,8 @@ $tab = $conn->query($sql);
         window.location.reload(true);
         }
     </script>
+
+<!-----------------------------------Grafico de-------------------------------------------------------------------------------->
 
 
 </html>

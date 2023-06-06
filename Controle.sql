@@ -9,7 +9,6 @@ create table usuario(
     email varchar(110) not null,
     senha varchar(20) not null,
     cidade varchar(45) not null,
-	
     nome_imagem varchar(100),
     caminho_imagem varchar(50)
 );
@@ -21,7 +20,7 @@ create table produto(
     nome varchar(50),
     tipo varchar(20),
     categoria varchar(20),
-    quantidade int,
+    quantidade int default 0,
     preco float,
     fornecedor varchar(45),
     marca varchar(50),
@@ -34,21 +33,20 @@ create table produto(
 create table perecivel(
 	id_produto int primary key,
     foreign key (id_produto) references Produto(id),
-    quantidade int,
+    quantidade int default 0,
     data_entrada date,
     data_validade date,
-    id_usuario int,
-    foreign key (id_usuario) references usuario(id)
+    id_usuario int
+    
     
 );
 
 create table variado(
 	id_produto int primary key,
     data_entrada date,
-    quantidade int,
-    id_usuario int ,
-    foreign key (id_produto) references produto(id),
-    foreign key (id_usuario) references usuario(id)
+    quantidade int default 0,
+    id_usuario int 
+    
 );
 
 create table administrador(
@@ -70,31 +68,43 @@ create TABLE imagens(
     caminho varchar(50),
     id_usuario int,
     id_produto int,
-    PRIMARY KEY(id, id_usuario, id_produto),
-    FOREIGN key (id_usuario) REFERENCES usuario(id),
-    FOREIGN key (id_produto) REFERENCES produto(id)
+    PRIMARY KEY(id, id_usuario, id_produto)
+    
     );
     
     
     
 create table vendas(
-	id int primary key,
-    quatidade int,
-    data_saida date,
+	id int primary key auto_increment,
     id_usuario int,
     id_produto int,
-    FOREIGN key (id_usuario) REFERENCES usuario(id),
-    FOREIGN key (id_produto) REFERENCES produto(id)
+    nome_produto varchar(50),
+    quantidade int default 0,
+    valor float,    
+    data_saida datetime   
+    
 );
 
-insert into Usuario(nome,email,senha,cidade,telefone)
-values("Fabio","fabiofelipe788@gmail.com","12345678","Centro", "35984039274");
+create table deletado(
+	id int PRIMARY key AUTO_INCREMENT,
+    id_produto int,
+    id_usuario int,
+    nome_produto varchar(50),
+    data_delete datetime
+    );
 
-insert into Usuario(nome,email,senha,cidade,telefone)
-values("Joao","joao@gmail.com","10203040","Centro", "3595645121");
+insert into categoria(tipo)
+values("ELETRONICOS");
 
-insert into Usuario(nome,email,senha,cidade,telefone)
-values("Maria","maria@gmail.com","1020304050","Centro", "34515454");
+
+insert into Usuario(nome,email,senha,cidade)
+values("Fabio","fabiofelipe788@gmail.com","12345678","Centro");
+
+insert into Usuario(nome,email,senha,cidade)
+values("Joao","joao@gmail.com","10203040","Centro");
+
+insert into Usuario(nome,email,senha,cidade)
+values("Maria","maria@gmail.com","1020304050","Centro");
 
 select * from usuario;
 
@@ -106,16 +116,16 @@ values("Lapis","Nao_Perecivel",110,"0.70", "Faber", 3,now());
 
 select * from Produto;
 
-insert into Perecivel(id_produto,data_fabricacao,data_validade)
-values(1,"2023-02-15", "2024-02-15");
 
-insert into administrador values(Null,"Controle Estoque", "estoque@gmail.com", "12345678" );
+
+insert into administrador values(Null,"Administrador", "adm@gmail.com", "12345678" );
 
 
 create view tabela_venda as
 SELECT produto.nome as nome, produto.preco as preco, imagens.caminho , produto.id_usuario as id_usuario, produto.id as id_produto
-FROM produto join imagens on produto.id = imagens.id_produto  ;
+FROM produto join imagens on produto.id = imagens.id_produto where produto.quantidade > 0  ;
 
+#drop view tabela_venda;
 
 create view produtos_cadastrados as 
 select produto.id as ID_Produto , produto.nome as nome, produto.quantidade as quantidade,
@@ -130,61 +140,108 @@ produto.preco as preco,produto.quantidade as quantidade, imagens.caminho as cami
 imagens.id_produto as id_produto  
 from produto join imagens on produto.id = id_produto ;
 
-select * from produto; 
+
+create view produtos_usuario  as 
+SELECT usuario.nome AS nome_usuario, count(produto.nome) AS quantidade
+FROM usuario join produto on usuario.id = produto.id_usuario GROUP BY usuario.id;
+
+ create view ultimos_cadastros as
+ select produto.id_usuario as id_usuario, produto.nome as nome, produto.preco as preco, produto.status_cadastro AS status_cadastro
+ FROM produto ;
+
+CREATE VIEW itens_perto_de_vencer AS
+SELECT id, nome, tipo, categoria, data_validade
+FROM produto
+WHERE data_validade BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY;
+
+#Trigger
+
+DELIMITER !
+CREATE TRIGGER atualizar_valor
+AFTER INSERT ON vendas
+FOR EACH ROW
+BEGIN
+  UPDATE produto SET quantidade = quantidade - NEW.quantidade where id = new.id_produto;
+END !
 
 
-delimiter$
-CREATE TRIGGER AdicionarItemPerecivelVariado
+CREATE TRIGGER deletado
+AFTER DELETE ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO deletado (id_produto, id_usuario, nome_produto, data_delete)
+    VALUES (OLD.id, OLD.id_usuario, OLD.nome, NOW());
+END!
+
+
+CREATE TRIGGER tipo
 AFTER INSERT ON produto
 FOR EACH ROW
 BEGIN
-    IF NEW.tipo = 'perecivel' THEN
-        INSERT INTO perecivel (id_produto, quantidade, data_entrada, data_validade, id_usuario)
-        VALUES (NEW.id, NEW.quantidade, CURDATE(), NEW.data_validade, NEW.id_usuario)$
-    ELSEIF NEW.tipo = 'variado' THEN
-        INSERT INTO variado (id_produto, data_entrada, quantidade, id_usuario)
-        VALUES (NEW.id, CURDATE(), NEW.quantidade, NEW.id_usuario)$
-    END IF$
-END$
-delimiter ; 
-
-
-
-DELIMITER $
-CREATE PROCEDURE ArmazenarProduto (
-    id_produto int ,
-    id_usuario int ,
-    tipo VARCHAR(20),
-    data_validade DATE,
-    quantidade int
-	
-)
-AS
-BEGIN
-    IF tipo = 'PERECIVEL'
-    BEGIN
-        INSERT INTO perecivel (id_produto,quantidade, data_validade, data_entrada, id_usuario)
-        VALUES (id_produto, quantidade, data_validade, sum(), id_usuario)
-    END;
-    ELSE IF tipoProduto = 'nao_perecivel'
-    BEGIN
-        INSERT INTO variado (id_produto, data_entrada, quantidade, id_usuario)
-        VALUES (id_produto, sum(),quantidade, id_usuario)
-    END$
-END$
+    IF NEW.tipo = 'VARIADO' THEN
+	INSERT INTO variado(id_produto, data_entrada, quantidade, id_usuario) 
+       VALUES (NEW.id , NOW(), NEW.quantidade, NEW.id_usuario);
+   ELSE
+       INSERT INTO perecivel(id_produto, data_validade, data_entrada, quantidade, id_usuario) 
+       VALUES (NEW.id, NEW.data_validade, NOW(), NEW.quantidade, NEW.id_usuario);
+    END IF;
+END!
 DELIMITER;
 
 
-CREATE FUNCTION TotalProdutosPorUsuario (idusuario INT)
-RETURNS INT
-AS
+
+#Procedure
+
+DELIMITER $
+CREATE PROCEDURE adicionar(
+id_produto int,
+data_entrada datetime,
+data_validade date,
+quantidade int,
+id_usuario int
+)
 BEGIN
-    DECLARE totalProdutos INT
+	IF (SELECT tipo FROM produto WHERE id = id_produto) = 'VARIADO' THEN
+		INSERT INTO variado(id_produto, data_entrada, quantidade, id_usuario) VALUES
+		(id_produto, data_entrada, quantidade, id_usuario);
+	ELSE
+		INSERT INTO perecivel(id_produto, quantidade, data_entrada, data_validade, id_usuario) VALUES
+		(id_produto, quantidade, data_entrada, data_validade, id_usuario);
+	END IF;
+END$
+DELIMITER ;
 
-    SELECT totalProdutos = COUNT(*) FROM produto WHERE id_usuario = idUsuario
 
-    RETURN totalProdutos
-END
+#Function
+
+delimiter $
+
+DELIMITER $
+
+CREATE FUNCTION itens_perto_de_vencer(data_item DATE, dia DATE)
+RETURNS INT
+BEGIN
+    DECLARE total INT;
+    
+    SELECT COUNT(*)
+    INTO total
+    FROM produto
+    WHERE data_validade BETWEEN data_item AND data_item + INTERVAL dia DAY;
+
+    RETURN total;
+END$
+delimiter ;
+
+SELECT itens_perto_de_vencer('2024-06-06',7 ) AS total_itens_perto_de_vencer;
+
+
+
+
+
+
+
+
+
 
 
 

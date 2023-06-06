@@ -19,43 +19,42 @@ if(!isset($_SESSION['login'])){
     $_SESSION['id_usuario'];
     $id_usuario = $_SESSION['id_usuario']; 
 
-
-if(isset($_POST['nome']) and !empty($_POST['nome'])){
-
+if(isset($_POST['nome']) and  !empty($_POST['nome'])){
     $nome = $_POST['nome'];
     $email = $_POST['email'];
     $senha = $_POST['senha'];
     $cidade = $_POST['cidade'];
-    $telefone = $_POST['telefone'];
-    
-
-    $sql = "SELECT * FROM usuario";
-    $result = $conn->query($sql);
-    
-    $exis = 0;
-    if($result->num_rows >= 0){
-        while($data = mysqli_fetch_assoc($result)){
-            $email2 = $data['email'];
-            if($email == $email2){
-                $exis = 1;
-                break;               
-            }
-            else{
-                $exis = 2;
-            }
-        }
-
-    if($exis == 1){
-        echo "Ja existe";
-        }
-
-    else{
-        $sql = "INSERT INTO usuario values (NULL, '$nome' , '$email' , '$senha' , '$cidade' , '$telefone')";
-        $exec = $conn->query($sql);
-        echo "inserido";              
-        }
+    $imagem = $_FILES['imagem'];
+            
+    if($imagem['error']){
+      die("Falha ao Enviar Imagem");
     }
-   
+      
+    if($imagem['size'] > 2097152){
+      die("Arquivo Muito grande !! MAX: 2MB");
+    }
+        
+    $pasta = "../../usuario/img/";
+    $nomefotoenviada = $imagem['name'];
+    $novonomefoto = uniqid();
+    $extensao = strtolower(pathinfo($nomefotoenviada,PATHINFO_EXTENSION));
+      
+    if($extensao != "jpg"  and $extensao != 'png' and $extensao != 'jpeg'){
+      die("Tipo de Arquivo não aceito");
+    }
+      
+    $path = $pasta . $novonomefoto . "." . $extensao;
+    $nomefotoenviada = $imagem['name'];
+    $deu_certo = move_uploaded_file($imagem["tmp_name"], $path);
+      
+    if($deu_certo){
+              
+      $sql = "INSERT INTO usuario values (NULL, '$nome', '$email','$senha','$cidade' , '$nomefotoenviada', '$path')";
+      $exec = $conn->query($sql); 
+      echo "Cadastro Efetuado";
+      
+      header('Location: ../consultas/usuarios.php') ;  
+    }          
 }
 ?>
 <!----------------------------------------------------------------------------------------------------------------------------->
@@ -65,14 +64,14 @@ if(isset($_POST['nome']) and !empty($_POST['nome'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Principal</title>
+    <title>Cadastrar Usuarios</title>
     <link rel="stylesheet" href="../../css/style.css">
     
 </head>
 <body>
     <div class="topo">
         <ul>
-            <h1>Adicionar Usuario</h1>
+            <h1>Portal Administrador</h1>
         </ul>
     </div>
 <!---------------------------------------------------------------------------------------------------------------------->
@@ -95,14 +94,7 @@ if(isset($_POST['nome']) and !empty($_POST['nome'])){
                         
                     </ul>
                 </li>
-                <li><a href="#">Usuario</a>
-                    <ul class="cadastrar">
-                            <li><a href=""> Editar</a></li>
-                            <li><a href="#"> Excluir</a></li>
-                        </ul>
-            
-                </li>
-                <li><a href="#">Quem somos</a></li>
+                
                 <li><a href="../../adm/login/index.php">Sair</a></li>
 
             </ul>
@@ -121,32 +113,29 @@ if(isset($_POST['nome']) and !empty($_POST['nome'])){
 <div>
     <br>
     <br>
-    <form action="" method="post" >
+    <form action="" method="post"  class="formusu"  enctype="multipart/form-data">
   
-       
-        <label for="">Nome:</label >
-        <input  type="text" name="nome" placeholder="Digite o seu nome" required >
-    
-        <label for="">E-mail:</label>
-        <input  type="email" name="email" placeholder="Digite o seu e-mail" required>
-    
-        <label for="">Senha:</label>
-        <input  type="password" name="senha" placeholder="Digite a sua senha" minlength="8" required >
-    
-        <label for="">Cidade:</label>
-        <input  type="text" name="cidade" placeholder="Digite sua Cidade"  required >
-        
-        <label for="" >Telefone</label>
-        <input class="telefone" type="tel" name="telefone" id="telefone" placeholder=Telefone value="(00) 0000-0000"required>
-        
-        
-        
+ 
+    <label for="" class="cadu">Nome:</label >
+    <input class="cadi" type="text" name="nome" placeholder="Digite o seu nome" required >
 
-        <br>
-        <br>
-        
+    <label for="" class="cadu">E-mail:</label>
+    <input class="cadi" type="email" name="email" placeholder="Digite o seu e-mail" required>
+
+    <label for="" class="cadu">Senha:</label>
+    <input  class="cadi" type="password" name="senha" placeholder="Digite a sua senha" minlength="8" required >
+
+    <label for="" class="cadu">Cidade:</label>
+    <input class="cadi" type="text" name="cidade" placeholder="Digite sua Cidade"  required >
     
-        <input type="submit" class=volt1 value="Cadastrar" link rel=”author” >
+    
+    <br>
+    <label for=""  >Insira a Imagem</label>
+    <input type="file" name='imagem' required>
+    <br>
+    <br>
+    
+    <input type="submit" class=volt1 value="Cadastrar" link rel=”author” >
        
         
       </form>

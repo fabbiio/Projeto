@@ -29,18 +29,17 @@ error_reporting(E_ALL);
        $img = $conn->query($sql);
 
     //unset($_SESSION['carrinho']);
+    
     if(isset($_SESSION['carrinho']))
     {   
         sort($_SESSION['carrinho']);         
         $ids = "";
         
         if(isset($_GET['rem']))
-        {   
-            
+        {               
             $id = $_GET['rem'];
             unset( $_SESSION['carrinho'][$id]);
-            $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);  
-            //$_SESSION['carrinho'] = sort($_SESSION['carrinho']);       
+            $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);       
         }
         $valor = 0;
         
@@ -57,14 +56,15 @@ error_reporting(E_ALL);
         if($valor == 1){
             $ids = rtrim($ids,",");
             $sql = "SELECT * from carrinho where id in ($ids) order by id asc";
-            $result = $conn->query($sql);
+            $result_carr = $conn->query($sql);
            
         }else{
-            $result = false;
-        }
-        
-      
-    }    
+            $result_carr = false;
+        } 
+    }else{
+        $result_carr = false;
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -124,7 +124,7 @@ error_reporting(E_ALL);
             <li><a href="#">Usuario</a>
                 <ul class="cadastrar">
                         <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
+                        <li><a href="<?php echo BASEURL?>users/usuario/excluir.php"> Excluir</a></li>
                     </ul>
         
             </li>
@@ -176,13 +176,13 @@ error_reporting(E_ALL);
                        <?php
                             $te = 0;
 
-                            if($result == false){
+                            if($result_carr == false){
                                 $te = 0;
                             }else{
                                 $te = 1;
 
                                 $valor = 0;
-                                foreach ( $result as $obj => $view){
+                                foreach ( $result_carr as $obj => $view){
                                     $valor = $view['preco'] + $valor;
                                     
                                     echo "<tr>";
@@ -200,12 +200,14 @@ error_reporting(E_ALL);
                                       
                                         <td> 
                                             <div class="qty">
-                                                <button onclick="menos_<?php echo $obj; ?>()"><i class='bx bx-minus'></i></button>
-                                                <!--<button><i class='bx bx-minus'></i></button>-->
+                                                <!--<button onclick="menos_<?php echo $obj; ?>()"><i class='bx bx-minus'></i></button>-->
+                                                <button><i class='bx bx-minus'></i></button>
                                                 <span id="valor_<?php echo $obj; ?>"> 1</span>
-                                                <button onclick="mais_<?php echo $obj; ?>()"><i class='bx bx-plus'></i></box-icon></button>
-                                                <!--<button ><i class='bx bx-plus'></i></box-icon></button>--->
+                                                <!--<button onclick="mais_<?php echo $obj; ?>()"><i class='bx bx-plus'></i></box-icon></button>--->
+                                                <button ><i class='bx bx-plus'></i></box-icon></button>
+                                                
                                             </div>
+                                            
                                             
                                         </td>
                                         <td><?php echo "R$ ".  number_format($view['preco'],2,",","."); ?></td>
@@ -265,7 +267,7 @@ error_reporting(E_ALL);
                     </footer>
                 </div>
               
-                <a href="carrinho.php?car=" style="text-decoration:none"><button  class="ven">Finalizar Compra</button></a>
+                <a href="checkout.php" style="text-decoration:none"><button  class="ven">Finalizar Compra</button></a>
                
             </aside>
         </div>

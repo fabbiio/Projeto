@@ -15,11 +15,10 @@
     $usuario = $_SESSION['usuario'];
        
        
-    $sql = "SELECT * FROM produto WHERE id_usuario ='$id_usuario'"; # instrucao sql (consulta no formato texto)
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM produto WHERE id_usuario ='$id_usuario'"; 
     
     
-    $sql = "SELECT caminho_imagem as caminho FROM usuario WHERE id ='$id_usuario'"; # instrucao sql (consulta no formato texto)
+    $sql = "SELECT caminho_imagem as caminho FROM usuario WHERE id ='$id_usuario'"; 
     $img = $conn->query($sql);
 
     $sql = "SELECT * FROM tabela_venda WHERE id_usuario ='$id_usuario'";
@@ -84,7 +83,7 @@
         </ul>
     </div>
 <!---------------------------------------------------------------------------------------------------------------------->
-  <nav class="menu">
+<nav class="menu">
         <ul class="opcoes">
             <li><a href="<?php echo BASEURL?>">Home</a></li>
             <li>
@@ -103,13 +102,7 @@
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
+            
             <li><a href="#">Vendas</a>
                 <ul class="cadastrar">
                     <li><a href="<?php echo BASEURL?>users/produto/venda/vender.php"> Vender</a></li>

@@ -92,7 +92,7 @@
             <li><a href="#">Usuario</a>
                 <ul class="cadastrar">
                         <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
+                        <li><a href="<?php echo BASEURL?>users/usuario/excluir.php"> Excluir</a></li>
                     </ul>
         
             </li>
@@ -119,7 +119,7 @@
     <form action="saveedit.php" method="post">
         
         <label for="">Produto:</label>
-        <input type="text"  name="nome" value="<?php echo $nome?>" >
+        <input type="text"  name="nome" value="<?php echo $nome?>" maxlength="45" >
         <br>
         <label>Tipo</label>
         <input type="text"  name="tipo" value="<?php echo $tipo?>" disabled >

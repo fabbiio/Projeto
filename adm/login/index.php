@@ -33,7 +33,7 @@
             header('Location: ' . BASEURL . 'adm/index.php');
 
         } else {
-            header('Location: ' . BASEURL . 'adm/login.php?msg=1');
+            header('Location: index.php?msg=1');
         }
     }
 	
@@ -42,7 +42,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 	<title>Login Administrador</title>
 	<meta charset="UTF-8">
@@ -83,7 +83,7 @@
 							if(isset($_GET['msg'])){            
 						?>
 								<div class="alert alert-danger" role="alert">
-									Informações Inválidas !!!
+									Usuario ou Senha Incorretos !!!
 								</div>
 						<?php        
 							}
@@ -98,7 +98,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="senha" placeholder="Password">
+						<input class="input100" type="password" name="senha" placeholder="Senha">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -110,8 +110,6 @@
 							Login
 						</button>
 					</div>
-
-					
 
 					<div class="text-center p-t-136">
 						<a class="txt2" href="<?php echo BASEURL?>users/Login/login.php">
@@ -148,8 +146,6 @@
 
 <!--===============================================================================================-->
 	<script src="<?php echo BASEURL?>users/Login/js/main.js"></script>
-	<footer>
-        <p style="margin-left:45%"> Todos os direitos reservados. </p>
-    </footer>
+	
 </body>
 </html>

@@ -13,7 +13,9 @@
      $id_usuario = $_SESSION['id_usuario']; 
      $usuario = $_SESSION['usuario'];
  
-
+     $sql = "SELECT caminho_imagem as caminho FROM usuario WHERE id ='$id_usuario'"; # instrucao sql (consulta no formato texto)
+     $img = $conn->query($sql);
+     
  if(!empty($_GET['search']) or $_GET)
  {
      $data = $_GET['search'];
@@ -45,7 +47,18 @@
     <div class="topo">
         <ul>
             <h1>Controle de Estoque</h1>
-            <img src="<?php echo BASEURL?>img/person.png" alt="Meu Perfil" class="img">
+            <?php
+                if (mysqli_num_rows($img) > 0){
+                    foreach ( $img as $obg ){
+                        ?>
+                        <img class="img" src="<?php echo BASEURL . "usuario/". $obg['caminho'];?>">
+                        <?php
+                    }
+                }else{
+                    echo "<img class='img' src='usuario/img/person.png'> alt='Sem Foto'";
+                    
+                }
+            ?>
             <h1 class="nome"><?php echo $usuario ?></h1>
         </ul>
     </div>
@@ -70,13 +83,7 @@
                     
                 </ul>
             </li>
-            <li><a href="#">Usuario</a>
-                <ul class="cadastrar">
-                        <li><a href="<?php echo BASEURL?>users/usuario/usuario.php"> Editar</a></li>
-                        <li><a href="#"> Excluir</a></li>
-                    </ul>
-        
-            </li>
+            
             <li><a href="#">Vendas</a>
                 <ul class="cadastrar">
                     <li><a href="<?php echo BASEURL?>users/produto/venda/vender.php"> Vender</a></li>
@@ -145,7 +152,7 @@
             
         </tr >
         <tbody >
-            <?php
+            <?php				
                 $total1 = 0;
                 $total2 = 0;
                 $total3 = 0;
@@ -175,12 +182,12 @@
                             
                                 </a>
                         
-                                <a class='btn btn-sm btn-danger' href='../editar/deletar.php?id=$user_data[id]'>
+                                <a class='btn btn-sm btn-danger' href='../editar/deletar.php?id=$user_data[id] '>
                                     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash-fill' viewBox='0 0 16 16' id='d'>
                                         <path d='M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z'/>
                                     </svg>
                                 </a>
-
+                    
                                
                                 
                               </td>";
