@@ -210,6 +210,7 @@ BEGIN
 	END IF;
 END$
 DELIMITER ;
+CALL adicionar(1, '2023-06-06 10:00:00', '2023-06-10', 5, 1);
 
 
 #Function
