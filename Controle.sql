@@ -187,23 +187,6 @@ BEGIN
     END IF;
 END!
 
-
-
-CREATE TRIGGER deletado AFTER DELETE ON produto
- FOR EACH ROW BEGIN
-    INSERT INTO deletado (id_produto, id_usuario, nome_produto, data_delete)
-    VALUES (OLD.id, OLD.id_usuario, OLD.nome, NOW());
-END$
-
-
-
-CREATE TRIGGER atualizar_valor AFTER INSERT ON vendas
- FOR EACH ROW BEGIN
-  UPDATE produto SET quantidade = quantidade - NEW.quantidade where id = new.id_produto;
-
-END$
-
-
 DELIMITER ;
 
 
