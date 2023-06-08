@@ -96,7 +96,6 @@ create table deletado(
 insert into categoria(tipo)
 values("ELETRONICOS");
 
-
 insert into Usuario(nome,email,senha,cidade)
 values("Fabio","fabiofelipe788@gmail.com","12345678","Centro");
 
@@ -117,8 +116,24 @@ values("Lapis","Nao_Perecivel",110,"0.70", "Faber", 3,now());
 select * from Produto;
 
 
-
 insert into administrador values(Null,"Administrador", "adm@gmail.com", "12345678" );
+
+#Criar usuarios
+
+create user 'administrador'@'localhost' identified by '102030' ;
+grant all on controle.* to 'administrador'@'localhost';
+show grants for 'administrador'@'localhost' ;
+
+create user 'usuario'@'localhost' ;
+grant select on controle. produtos_cadastrados to 'usuario'@'localhost';
+show grants for 'usuario'@'localhost' ;
+
+
+
+
+
+
+# View 
 
 
 create view tabela_venda as
@@ -186,6 +201,23 @@ BEGIN
        VALUES (NEW.id, NEW.data_validade, NOW(), NEW.quantidade, NEW.id_usuario);
     END IF;
 END!
+
+
+
+CREATE TRIGGER deletado AFTER DELETE ON produto
+ FOR EACH ROW BEGIN
+    INSERT INTO deletado (id_produto, id_usuario, nome_produto, data_delete)
+    VALUES (OLD.id, OLD.id_usuario, OLD.nome, NOW());
+END$
+
+
+
+CREATE TRIGGER atualizar_valor AFTER INSERT ON vendas
+ FOR EACH ROW BEGIN
+  UPDATE produto SET quantidade = quantidade - NEW.quantidade where id = new.id_produto;
+
+END$
+
 
 DELIMITER ;
 
